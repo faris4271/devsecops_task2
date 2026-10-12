@@ -171,7 +171,6 @@ jobs:
       TEST_RESULT: ${{ needs.test.result }}
       PACKAGE_RESULT: ${{ needs.package.result }}
       PACKAGE_VERSION: ${{ needs.package.outputs.version || 'n/a' }}
-      NOTIFY_TOKEN_EXISTS: ${{ secrets.NOTIFY_TOKEN != '' }}
     steps:
       - name: Write job summary
         run: |
@@ -190,8 +189,8 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Notify if token exists
-        if: env.NOTIFY_TOKEN_EXISTS == 'true'
         env:
           NOTIFY_TOKEN: ${{ secrets.NOTIFY_TOKEN }}
         run: |
           echo "Notification sent (token length: ${#NOTIFY_TOKEN})"
+
